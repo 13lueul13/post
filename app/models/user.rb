@@ -5,7 +5,7 @@ class User < ApplicationRecord
                     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
                     uniqueness: { case_sensitive: false }
   validates :email_confirmation, presence: true
-  validates :date_of_birth, presence: true, :future_NG
+  validates :future_NG
   has_seccure_password
   
   def future_NG
