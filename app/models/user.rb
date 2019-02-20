@@ -34,4 +34,8 @@ class User < ApplicationRecord
   def followings?(other_user)
     self.followings.inculude?(other_user)
   end
+  
+  def feed_posts
+    posts.where(user_id: self.following_ids + [self.id])
+  end
 end
