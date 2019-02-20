@@ -9,10 +9,10 @@ class User < ApplicationRecord
   has_secure_password
   
   has_many :posts
-  has_many :relationships
+  has_many :relations
   has_many :followings, through: :relations, source: :follow
   has_many :reverses_of_relation, class_name: "Relation", foreign_key: "follow_id"
-  has_many :followers, through: :reverses_of_relation, source: user
+  has_many :followers, through: :reverses_of_relation, source: :user
   
   def future_NG
     if date_of_birth.present? && birthday > Date.today
