@@ -9,10 +9,29 @@ class User < ApplicationRecord
   has_secure_password
   
   has_many :posts
+  has_many :relationships
+  has_many :followings, through: :relations, source: :follow
+  has_many :reverses_of_relation, class_name: "Relation", foreign_key: "follow_id"
+  has_many :followers, through: :reverses_of_relation, source: user
   
   def future_NG
     if date_of_birth.present? && birthday > Date.today
       errors.add(:birthday, "あなたは未来人ですか？")
     end
+  end
+  
+  def follow(other_user)
+    unless self == other_user
+      self.relations.find_or_created_by(follow_id: other_user.id)
+    end
+  end
+  
+  def unfollow(other_user)
+    relation = self.relations.find_by(follow_id: other_user.id)
+    relation.destroy if relation
+  end
+  
+  def followings?(other_user)
+    self.followings.inculude?(other_user)
   end
 end
