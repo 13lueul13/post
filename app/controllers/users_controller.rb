@@ -49,6 +49,12 @@ class UsersController < ApplicationController
     counts(@user)
   end
   
+  def likes
+    @user = User.find(params[:id])
+    @like_posts = @user.like_posts.order('created_at DESC').page(params[:page])
+    counts(@user)
+  end
+  
   private
   
   def user_params

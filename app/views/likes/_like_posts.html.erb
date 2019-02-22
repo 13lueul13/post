@@ -1,0 +1,18 @@
+<ul class="media-list">
+  <% like_posts.each do |like_post| %>
+    <li class="media">
+      <div class="media-left">
+        <img class="media-object img-rounded" src="<%= gravatar_url(like_post.user, options = { size: 50 }) %>" alt="">
+      </div>
+      <div class="media-body">
+        <div>
+          <%= link_to like_post.user.name, user_path(like_post.user) %> <span class="text-muted">posted at <%= like_post.created_at %></span>
+        </div>
+        <div>
+          <p><%= like_post.content %></p>
+        </div>
+      </div>
+    </li>
+  <% end %>
+  <%= paginate like_posts %>
+</ul>
