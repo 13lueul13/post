@@ -1,7 +1,9 @@
-<div class="center jumpbotron">
+<% if current_user == user %>
+  <div class="center jumpbotron">
     <div class="text-center">
       <h1>一度退会すると、データは復元できません。</h1>
       <h1>本当に退会しますか？</h1>
        <%= link_to "Delete", unsubscribe_path, method: :delete, class: 'btn btn-danger btn-block' %>
     </div>
-</div>
+  </div>
+<% end %>

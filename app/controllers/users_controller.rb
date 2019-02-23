@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_user_logged_in, only: [:index, :show]
+  before_action :require_user_logged_in, only: [:index, :show, :destroy]
   
   def index
     @users = User.all.page(params[:page])
@@ -32,9 +32,21 @@ class UsersController < ApplicationController
   end
 
   def update
+    @user = User.find(params[:id])
+
+    if @user.update(user_params)
+      flash[:success] = "ユーザー情報が変更されました。"
+      redirect_to @user
+    else
+      flash.now[:danger] = "ユーザー情報の変更に失敗しました。"
+      render :edit
+    end
   end
   
   def destroy
+    @user = User.find(params[:id])
+    @user.destroy 
+    redirect_to root_url
   end
   
   def followings

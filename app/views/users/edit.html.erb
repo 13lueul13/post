@@ -1,15 +1,21 @@
-<h1><%= @user.name %>の一言コメント編集ページ</h1>
+<h3><%= @user.name %>のユーザー情報編集</h3>
 
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
+  <div class="col-md-4">
 
     <%= form_for(@user) do |f| %>
-      <%= f.label :comment, "一言コメント" %>
-      <%= f.text_field :comment, "form-control" %>
-
-      <%= f.submit "投稿", class: "btn btn-primary btn-block" %>
+    
+      <div class="form-group">
+        <%= f.label :date_of_birth, "生年月日" %>
+        <%= f.date_field :date_of_birth, class: "form-control" %>
+      </div>
+      
+      <div class="form-group">
+        <%= f.label :comment, "一言コメント" %>
+        <%= f.text_area :comment, class: "form-control", rows: 5 %>
+      </div>
+      
+      <%= f.submit "変更する", class: "btn btn-primary btn-block" %>
     <% end %>
   </div>
 </div>
-
-<%= link_to "ユーザーページへ戻る", user_path, class: "btn btn-lg btn-primary" %>

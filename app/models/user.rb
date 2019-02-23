@@ -33,8 +33,8 @@ class User < ApplicationRecord
     relation.destroy if relation
   end
   
-  def followings?(other_user)
-    self.followings.inculude?(other_user)
+  def following?(other_user)
+    self.followings.include?(other_user)
   end
   
   def feed_posts
