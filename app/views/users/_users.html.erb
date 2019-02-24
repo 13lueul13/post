@@ -3,14 +3,12 @@
     <% users.each do |user| %>
       <li class="media">
         <div class="media-left">
-          <img class="media-object img-rounded" src="<%= gravatar_url(user, { size: 30 }) %>" alt="">
+          <img class="media-object img-rounded" src="<%= gravatar_url(user, { size: 50 }) %>" alt="">
         </div>
         <div class="media-body">
           <div>
-            <%= user.name %>
-          </div>
-          <div>
-            <p><%= link_to 'View profile', user_path(user) %></p>
+            <h4><%= link_to user.name, user_path(user) %></h4>
+            <p><%= user.comment %></p>
           </div>
         </div>
       </li>
