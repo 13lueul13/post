@@ -3,6 +3,7 @@ class UsersController < ApplicationController
   
   def index
     @users = User.all.page(params[:page])
+    @user = current_user
   end
 
   def show
@@ -17,7 +18,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    
+
     if @user.save
       flash[:success] = "登録しました。"
       redirect_to @user
@@ -33,7 +34,7 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-
+    
     if @user.update(user_params)
       flash[:success] = "ユーザー情報が変更されました。"
       redirect_to @user
@@ -70,6 +71,6 @@ class UsersController < ApplicationController
   private
   
   def user_params
-    params.require(:user).permit(:name, :email, :email_confirmation, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :email_confirmation, :password, :password_confirmation, :date_of_birth, :comment)
   end
 end

@@ -4,21 +4,19 @@ class User < ApplicationRecord
   validates :email, confirmation: true, presence: true, length: { maximum: 255 },
                     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
                     uniqueness: { case_sensitive: false }
-  validates :email_confirmation, presence: true
   validate :future_NG
   has_secure_password
   
-  has_many :posts
-  has_many :relations
+  has_many :posts, dependent: :destroy
+  has_many :relations, dependent: :destroy
   has_many :followings, through: :relations, source: :follow
   has_many :reverses_of_relation, class_name: "Relation", foreign_key: "follow_id"
   has_many :followers, through: :reverses_of_relation, source: :user
-  has_many :likes
+  has_many :likes, dependent: :destroy
   has_many :like_posts, through: :likes, source: :post
   
   def future_NG
-    if date_of_birth.present? && birthday > Date.today
-      errors.add(:birthday, "あなたは未来人ですか？")
+    if date_of_birth.present? && date_of_birth > Date.today
     end
   end
   
