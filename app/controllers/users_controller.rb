@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
-  before_action :require_user_logged_in, only: [:index, :show, :destroy]
+  before_action :require_user_logged_in, only: [:index, :show]
   
   def index
-    @users = User.all.page(params[:page])
+    @users = User.where.not(id: 1).page(params[:page])
     @user = current_user
   end
 
@@ -18,7 +18,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-
+    
     if @user.save
       flash[:success] = "登録しました。"
       redirect_to @user
@@ -36,17 +36,19 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     
     if @user.update(user_params)
-      flash[:success] = "ユーザー情報が変更されました。"
+      flash[:success] = "変更しました。"
       redirect_to @user
     else
-      flash.now[:danger] = "ユーザー情報の変更に失敗しました。"
+      flash.now[:danger] = "変更に失敗しました。"
       render :edit
     end
   end
   
   def destroy
     @user = User.find(params[:id])
-    @user.destroy 
+    @user.destroy
+    
+    flash[:success] = "退会処理が完了しました。"
     redirect_to root_url
   end
   
@@ -71,6 +73,6 @@ class UsersController < ApplicationController
   private
   
   def user_params
-    params.require(:user).permit(:name, :email, :email_confirmation, :password, :password_confirmation, :date_of_birth, :comment)
+    params.require(:user).permit(:name, :email, :email_confirmation, :password, :password_confirmation)
   end
 end

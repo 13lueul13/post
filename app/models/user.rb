@@ -9,11 +9,11 @@ class User < ApplicationRecord
   
   has_many :posts, dependent: :destroy
   has_many :relations, dependent: :destroy
-  has_many :followings, through: :relations, source: :follow
-  has_many :reverses_of_relation, class_name: "Relation", foreign_key: "follow_id"
-  has_many :followers, through: :reverses_of_relation, source: :user
+  has_many :followings, through: :relations, source: :follow, dependent: :destroy
+  has_many :reverses_of_relation, class_name: "Relation", foreign_key: "follow_id", dependent: :destroy
+  has_many :followers, through: :reverses_of_relation, source: :user, dependent: :destroy
   has_many :likes, dependent: :destroy
-  has_many :like_posts, through: :likes, source: :post
+  has_many :like_posts, through: :likes, source: :post, dependent: :destroy
   
   def future_NG
     if date_of_birth.present? && date_of_birth > Date.today
@@ -22,7 +22,7 @@ class User < ApplicationRecord
   
   def follow(other_user)
     unless self == other_user
-      self.relations.find_or_created_by(follow_id: other_user.id)
+      self.relations.find_or_create_by(follow_id: other_user.id)
     end
   end
   
@@ -36,7 +36,7 @@ class User < ApplicationRecord
   end
   
   def feed_posts
-    posts.where(user_id: self.following_ids + [self.id])
+    Post.where(user_id: self.following_ids + [self.id])
   end
   
   def fav(post)

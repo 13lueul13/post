@@ -15,7 +15,7 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @posts.destroy
+    @post.destroy
     flash[:success] = "メッセージを削除しました。"
     redirect_back(fallback_location: root_path) 
   end
@@ -28,7 +28,7 @@ class PostsController < ApplicationController
   
   def correct_user
     @post = current_user.posts.find_by(id: params[:id])
-    unless @posts
+    unless @post
       redirect_to root_url
     end
   end

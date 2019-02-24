@@ -1,6 +1,6 @@
 <% if logged_in? %>
   <div class="row">
-    <aside class="col-md-4">
+    <aside class="col-md-4 col-xs-6">
       <%= form_for(@post) do |f| %>
         <div class="form-group">
           <%= f.text_area :content, class: "form-control", rows: 5 %>
@@ -8,12 +8,18 @@
         <%= f.submit "Post", class: "btn btn-primary btn-block" %>
       <% end %>
     </aside>
+    <div class="col-md-8 col-xs-6">
+      <%= render "posts/posts", posts: @posts %>
+    </div>
   </div>
 <% else %>
-  <div class="center jumpbotron">
+  <div class="center jumbotron">
     <div class="text-center">
-      <h1>Welcome to the Posts</h1>
-       <%= link_to "Sign up now!", signup_path, class: "btn btn-lg btn-primary" %>
+      <h1>ようこそ、Postsへ</h1>
+      <h3>Postsは簡単にメッセージを発信できるWebサイトです。</h3>
     </div>
+  </div>
+  <div class="text-center">
+    <%= link_to "登録する", signup_path, class: "btn btn-lg btn-primary" %>
   </div>
 <% end %>
