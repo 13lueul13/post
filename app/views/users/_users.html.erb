@@ -3,15 +3,19 @@
     <% users.each do |user| %>
       <li class="media">
         <div class="media-left">
-          <img class="media-object img-rounded" src="<%= gravatar_url(user, { size: 50 }) %>" alt="">
+          <img class="media-object img-rounded" src="<%= gravatar_url(user, { size: 100 }) %>" alt="">
         </div>
         <div class="media-body">
           <div>
             <h4><%= link_to user.name, user_path(user) %></h4>
             <p><%= user.comment %></p>
+            <% if current_user.admin? && !(current_user == user) %>
+              <p><%= link_to "削除", user, method: :delete, data: {confirm: "このユーザーを削除しますか？"} %></p>
+            <% end %>
           </div>
         </div>
       </li>
+      <li role="separator" class="divider"></li>
     <% end %>
   </ul>
   <%= paginate users %>

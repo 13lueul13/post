@@ -7,8 +7,7 @@ Rails.application.routes.draw do
   
   get 'signup', to: 'users#new'
   
-  delete '/users/:id', to: 'users#destroy', as: :unsubscribe
-  resources :users, except: [:destroy] do
+  resources :users do
     member do
       get :followings
       get :followers

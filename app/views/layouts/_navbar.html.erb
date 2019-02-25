@@ -20,13 +20,9 @@
                 <li><%= link_to "プロフィール", user_path(current_user) %></li>
                 <li role="separator" class="divider"></li>
                 <li><%= link_to "ログアウト", logout_path, method: :delete %></li>
-                <% if current_user.admin? && !current_page?(current_user) %>
+                <% unless current_user.admin? && current_user == @user %>
                   <li role="separator" class="divider"></li>
-                  <li><%= link_to "削除", unsubscribe_path(@user), method: :delete, data: {confirm: "このユーザーを削除しますか？"} %></li>
-                <% end %>
-                <% if !current_user.admin? %>
-                  <li role="separator" class="divider"></li>
-                  <li><%= link_to "退会する", unsubscribe_path(@user), method: :delete, data: {confirm: "一度退会すると、データは復元できません。本当に退会しますか？"} %></li>
+                  <li><%= link_to "退会する", @user, method: :delete, data: {confirm: "一度退会すると、データは復元できません。本当に退会しますか？"} %></li>
                 <% end %>
               </ul>
             </li>
