@@ -41,7 +41,7 @@ class UsersController < ApplicationController
       redirect_to @user
     else
       flash.now[:danger] = "変更に失敗しました。"
-      render :edit
+      redirect_to root_url
     end
   end
   
